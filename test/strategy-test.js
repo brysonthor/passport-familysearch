@@ -4,7 +4,7 @@ const chai = require('chai');
 chai.use(require('chai-passport-strategy'));
 const expect = chai.expect;
 
-const FamilySearchStrategy = require('../lib/passport-familysearch/strategy');
+const FamilySearchStrategy = require('../lib/strategy');
 const InternalOAuthError = require('passport-oauth2').InternalOAuthError;
 
 describe('FamilySearchStrategy', function () {

@@ -5,11 +5,11 @@ chai.use(require('chai-passport-strategy'));
 const expect = chai.expect;
 const url = require('url');
 
-const FamilySearchStrategy = require('../lib/passport-familysearch/strategy');
+const FamilySearchStrategy = require('../lib/strategy');
 
 describe('FamilySearchStrategy familysearch.org-specific extensions', function () {
   let redirect, params;
-  const USERNAME = 'f&ñk#!,usern@m(); with spaces and special chars: ;,/?:@&=+$ -_.!~*\'() #';
+  const USERNAME = 'l()ñg, ç;®@#? us=rn@m()';
 
   before(function (done) {
     const mockSigner = function () {
@@ -45,20 +45,28 @@ describe('FamilySearchStrategy familysearch.org-specific extensions', function (
         params = url.parse(redirectUrl, true).query;
         done();
       })
-      .authenticate({referrer: 'example.com', lowBandwidth: true, userName: USERNAME});
+      .authenticate({referrer: 'example.com', display: 'wap', username: USERNAME, icid: 'abc.123-my_cid'});
   });
 
   it('should pass through referrer option', function () {
     expect(params.referrer).to.eql('example.com');
   });
 
+  it('should pass through icid option', function () {
+    expect(params.icid).to.eql('abc.123-my_cid');
+  });
+
+  it('should pass through display option', function () {
+    expect(params.display).to.eql('wap');
+  });
+
   it('should pass through low bandwidth option', function () {
     expect(params.low_bandwidth).to.eql('true');
   });
 
-  it('should pass through userName option', function () {
+  it('should pass through username option', function () {
     expect(redirect).to.include(encodeURIComponent(USERNAME));
-    expect(params.userName).to.eql(USERNAME);
+    expect(params.username).to.eql(USERNAME);
   });
 
   it('should set client_secret with custom signing function', function () {
