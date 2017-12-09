@@ -45,28 +45,26 @@ describe('FamilySearchStrategy familysearch.org-specific extensions', function (
         params = url.parse(redirectUrl, true).query;
         done();
       })
-      .authenticate({referrer: 'example.com', display: 'wap', username: USERNAME, icid: 'abc.123-my_cid'});
+      .authenticate({referrer: 'example.com', display: 'lite', userName: USERNAME, icid: 'abc.123-my_cid'});
   });
 
   it('should pass through referrer option', function () {
-    expect(params.referrer).to.eql('example.com');
+    expect(params).to.have.property('referrer', 'example.com');
   });
 
   it('should pass through icid option', function () {
-    expect(params.icid).to.eql('abc.123-my_cid');
+    expect(params).to.have.property('icid', 'abc.123-my_cid');
   });
 
-  it('should pass through display option', function () {
-    expect(params.display).to.eql('wap');
+  it('should pass through display and low bandwidth option', function () {
+    expect(params).to.have.property('display', 'lite');
+    expect(params).to.have.property('low_bandwidth', 'true');
   });
 
-  it('should pass through low bandwidth option', function () {
-    expect(params.low_bandwidth).to.eql('true');
-  });
-
-  it('should pass through username option', function () {
+  it('should pass through userName option', function () {
     expect(redirect).to.include(encodeURIComponent(USERNAME));
-    expect(params.username).to.eql(USERNAME);
+    expect(params.userName).to.eql(USERNAME);
+    expect(params).to.not.have.property('username');
   });
 
   it('should set client_secret with custom signing function', function () {
