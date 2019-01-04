@@ -61,7 +61,7 @@ describe('FamilySearchStrategy familysearch.org-specific extensions', function (
   });
 
   it('should pass through display and low bandwidth option', function () {
-    expect(params).to.have.property('display', 'lite');{}
+    expect(params).to.have.property('display', 'lite');
     expect(params).to.have.property('low_bandwidth', 'true');
   });
 
